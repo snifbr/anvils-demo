@@ -32,7 +32,7 @@ yum -y install xmlstarlet coreutils
 #
 # JRE
 #
-yum -y install java-1.7.0
+yum -y install java-1.8.0-openjdk
 #
 # Rundeck 
 #
@@ -49,7 +49,7 @@ else
     fi
 fi
 
-yum -y install rundeck
+yum -y install rundeck rundeck-cli
 
 # Reset the home directory permission as it comes group writeable.
 # This is needed for ssh requirements.
