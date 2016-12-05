@@ -17,8 +17,10 @@ fwk_prop_read() {
 }
 
 RDECK_URL=$(fwk_prop_read  server.url)
-RDECK_USER=$(fwk_prop_read server.username)
-RDECK_PASS=$(fwk_prop_read server.password)
+#RDECK_USER=$(fwk_prop_read server.username)
+RDECK_USER=admin
+#RDECK_PASS=$(fwk_prop_read server.password)
+RDECK_PASS=admin
 RDECK_NAME=$(fwk_prop_read server.name)
 RDECK_HOST=$(fwk_prop_read server.hostname)
 
@@ -112,7 +114,7 @@ chown -R rundeck:rundeck /var/rundeck
 #
 # Create the project
 
-su - rundeck -c "rd-project -a create -p $PROJECT --resources.source.2.type=directory --resources.source.2.config.directory=$RESOURCES_D"
+su - rundeck -c "rd projects create -p $PROJECT -- --resources.source.2.type=directory --resources.source.2.config.directory=$RESOURCES_D"
 
 cat > $ETC/resources.xml <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
@@ -131,9 +133,9 @@ cat > $ETC/resources.xml <<EOF
 EOF
 
 # Run a local ad-hoc command for sanity checking.
-su - rundeck -c "dispatch -p $PROJECT"
+#su - rundeck -c "rd adhoc -p $PROJECT -- "
 # Run a distributed ad-hoc command across all nodes
-su - rundeck -c "dispatch -p $PROJECT -f '*' whoami"
+su - rundeck -c "rd adhoc -p $PROJECT -F '.*' -- whoami"
 
 # Add jobs, scripts and options
 # -----------------------------
@@ -148,11 +150,11 @@ chmod 640 /var/www/html/$PROJECT/jobs/*
 # Load the jobs
 for job in /var/www/html/$PROJECT/jobs/*.xml
 do
-	su - rundeck -c "rd-jobs load -f $job"
+	su - rundeck -c "rd jobs load -p $PROJECT -f $job"
 done
 
 # List the jobs
-su - rundeck -c "rd-jobs list -p $PROJECT"
+su - rundeck -c "rd jobs list -p $PROJECT"
 
 
 exit $?
