@@ -34,6 +34,10 @@ yum -y install xmlstarlet coreutils
 #
 yum -y install java-1.8.0-openjdk
 #
+# VIM
+#
+yum -y install vim
+#
 # Rundeck 
 #
 if [ -n "$RUNDECK_REPO_URL" ]
