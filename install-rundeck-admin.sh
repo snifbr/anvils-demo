@@ -45,7 +45,7 @@ if [[ -n ${RUNDECK_URL:-} ]]
 then
 cat >> ~rundeck/.bashrc <<EOF
 export RUNDECK_URL=$RUNDECK_URL RUNDECK_USER=admin RUNDECK_PASSWORD=admin
-export RD_URL=${RUNDECK_URL} RD_USER=${RUNDECK_USER} RD_PASSWORD=${RUNDECK_PASSWORD}
+export RD_URL=\${RUNDECK_URL} RD_USER=\${RUNDECK_USER} RD_PASSWORD=\${RUNDECK_PASSWORD} RD_HTTP_TIMEOUT=60
 EOF
 chown rundeck:rundeck ~rundeck/.bashrc
 fi
